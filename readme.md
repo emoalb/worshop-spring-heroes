@@ -1,4 +1,5 @@
-Spring MVC Soft UNI Workshop
+### Spring MVC Soft UNI Workshop
 
--Spring Data JPA
--Spring WEB
+> Spring Data JPA
+
+> Spring WEB
