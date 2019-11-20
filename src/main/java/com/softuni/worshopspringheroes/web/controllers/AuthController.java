@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/users")
 public class AuthController {
     private AuthService authService;
     private ModelMapper modelMapper;
-
 
 
     @Autowired
@@ -44,11 +45,19 @@ public class AuthController {
         this.authService.register(registerUserServiceModel);
         return "redirect:/";
     }
+
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginUserModel model) {
+    public String login(@ModelAttribute LoginUserModel model, HttpSession httpSession) {
+
         LoginUserServiceModel loginUserServiceModel = this.modelMapper.map(model, LoginUserServiceModel.class);
-        this.authService.login(loginUserServiceModel);
-        return "redirect:/";
+        try {
+            this.authService.login(loginUserServiceModel);
+            httpSession.setAttribute("username",loginUserServiceModel.getUsername());
+            return "redirect:/";
+        } catch (Exception e) {
+            return "redirect:/users/login";
+        }
+
     }
 }
 

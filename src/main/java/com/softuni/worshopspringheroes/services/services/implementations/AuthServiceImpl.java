@@ -37,7 +37,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void login(LoginUserServiceModel loginUserServiceModel) {
-        System.out.println("Hi from login");
+    public void login(LoginUserServiceModel loginUserServiceModel) throws Exception {
+if(!userRepository.existsByUsernameAndPassword(loginUserServiceModel.getUsername(),
+        this.hashingService.hash(loginUserServiceModel.getPassword()))){
+    throw new Exception("Invalid user");
+        }
+
     }
 }

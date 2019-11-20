@@ -6,5 +6,5 @@ import com.softuni.worshopspringheroes.services.models.auth.RegisterUserServiceM
 public interface AuthService {
     void register(RegisterUserServiceModel model);
 
-    void login(LoginUserServiceModel loginUserServiceModel);
+    void login(LoginUserServiceModel loginUserServiceModel) throws Exception;
 }
