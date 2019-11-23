@@ -36,7 +36,7 @@ public class Hero extends BaseEntity {
     private List<Item> items;
 
 
-    @OneToOne(mappedBy = "hero", cascade = CascadeType.ALL)
+    @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

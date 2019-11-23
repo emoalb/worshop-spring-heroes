@@ -2,6 +2,7 @@ package com.softuni.worshopspringheroes.services.services.implementations;
 
 import com.softuni.worshopspringheroes.domain.entities.User;
 import com.softuni.worshopspringheroes.repository.UserRepository;
+import com.softuni.worshopspringheroes.services.models.auth.LoginUserResonceModel;
 import com.softuni.worshopspringheroes.services.models.auth.LoginUserServiceModel;
 import com.softuni.worshopspringheroes.services.models.auth.RegisterUserServiceModel;
 import com.softuni.worshopspringheroes.services.services.AuthService;
@@ -10,6 +11,8 @@ import com.softuni.worshopspringheroes.services.services.HashingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -37,11 +40,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void login(LoginUserServiceModel loginUserServiceModel) throws Exception {
-if(!userRepository.existsByUsernameAndPassword(loginUserServiceModel.getUsername(),
-        this.hashingService.hash(loginUserServiceModel.getPassword()))){
+    public LoginUserResonceModel login(LoginUserServiceModel loginUserServiceModel) throws Exception {
+        Optional<User> userOptional = userRepository.findByUsernameAndPassword(loginUserServiceModel.getUsername(),
+                this.hashingService.hash(loginUserServiceModel.getPassword()));
+if(userOptional.isEmpty()){
     throw new Exception("Invalid user");
         }
+User user = userOptional.get();
+return new LoginUserResonceModel(user.getUsername(),user.getHero()==null?null
+        :user.getHero().getName());
+
 
     }
 }

@@ -1,5 +1,6 @@
 package com.softuni.worshopspringheroes.web.controllers;
 
+import com.softuni.worshopspringheroes.services.models.auth.LoginUserResonceModel;
 import com.softuni.worshopspringheroes.services.models.auth.LoginUserServiceModel;
 import com.softuni.worshopspringheroes.services.models.auth.RegisterUserServiceModel;
 import com.softuni.worshopspringheroes.services.services.AuthService;
@@ -51,8 +52,8 @@ public class AuthController {
 
         LoginUserServiceModel loginUserServiceModel = this.modelMapper.map(model, LoginUserServiceModel.class);
         try {
-            this.authService.login(loginUserServiceModel);
-            httpSession.setAttribute("username",loginUserServiceModel.getUsername());
+            LoginUserResonceModel loginUserResonceModel = this.authService.login(loginUserServiceModel);
+            httpSession.setAttribute("user",loginUserResonceModel);
             return "redirect:/";
         } catch (Exception e) {
             return "redirect:/users/login";

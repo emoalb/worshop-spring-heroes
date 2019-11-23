@@ -22,7 +22,7 @@ public class User extends BaseEntity {
     @Column
     private String email;
 
-    @OneToOne()
+    @OneToOne(mappedBy = "user")
     private Hero hero;
 
 }
